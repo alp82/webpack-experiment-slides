@@ -227,7 +227,7 @@ import search from "search.js";
 				</section>
 
 				<section>
-					<h1>Loaders can do a lot more than transforming Javascript files</h1>
+					<h1>Loaders can do a<br />lot more than transforming Javascript files</h1>
 				</section>
 
 				<section class="scrollable-container">
@@ -409,7 +409,7 @@ npm install style-loader
 					<pre><code class="javascript" data-trim contenteditable>
 module: {
     loaders: [
-        { test: /\.html/, loader: "babel!template-string!html" },
+        { test: /\.html/, loader: "babel!template-string" },
         { test: /\.css$/i, loader: "style!css?modules" }
     ]
 }
