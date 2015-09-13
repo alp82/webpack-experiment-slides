@@ -1,0 +1,114 @@
+body {
+	background: #222;
+	background-color: #222;
+}
+
+.reveal p {
+	margin-top: 40px;
+}
+
+.reveal small {
+	vertical-align: middle;
+}
+
+.reveal .code-filename {
+	margin: 0 auto !important;
+	padding-top: 20px;
+	width: 90%;
+	text-align: left;
+	font-size: 0.55em;
+	font-family: monospace;
+	line-height: 1.2em;
+}
+
+.background-light {
+	background: rgba(255, 255, 255, .5) !important;
+}
+
+.twitter-handle {
+	margin: 0 !important;
+	border: none !important;
+	background: transparent !important;
+	position: relative;
+	top: 5px;
+}
+
+.logo {
+	width: 300px;
+}
+
+.squiek-logo {
+	width: 350px;
+}
+
+.no-border {
+	border: none !important;
+	box-shadow: none !important;
+}
+
+section.scrollable-container,
+div.scrollable-area {
+	height: 90%;
+	max-height: 90%;
+}
+
+div.scrollable-area {
+    text-align: left;
+    font-size: 0.55em;
+    line-height: 1.2em;
+    word-wrap: break-word;
+    overflow-y: scroll;
+}
+
+ul.check,
+ul.check {
+	padding-left: 20px;
+	text-indent: 2px;
+	list-style: none;
+	list-style-position: outside;
+}
+
+ul.check li:before,
+ul.check li:before {
+	margin-left: -1em;
+	margin-right: .100em;
+}
+
+ul.check li.good:before {
+	content: '✔';
+}
+
+ul.check li.bad:before {
+	content: '✗';
+}
+
+.good {
+	color: greenyellow;
+}
+
+.bad {
+	color: red;
+}
+
+/*Special styles for Squiek slide*/
+
+section.squiek {
+	background: #fff;
+	background: -webkit-radial-gradient(center, circle cover, #fff 80%, #222 100%);
+	border-radius: 20% / 50%;
+	color: #222;
+}
+
+.slide-background.squiek {
+	background: -webkit-radial-gradient(center, circle cover, #fff 10%, #222 57%);
+}
+
+.squiek h1,
+.squiek h2,
+.squiek h3,
+.squiek h4,
+.squiek h5,
+.squiek h6 {
+	color: #454545;
+}
+

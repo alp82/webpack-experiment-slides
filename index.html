@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>webpack - Slides by Alper Ortac</title>
+
+		<meta name="description" content="A presentation to showcase webpack.">
+		<meta name="author" content="Alper Ortac">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<!--<link rel="stylesheet" href="css/theme/black.css" id="theme">-->
+		<link rel="stylesheet" href="css/theme/league.css" id="theme">
+		<link rel="stylesheet" href="css/styles.css">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Webpack</h1>
+					<h2>The Module Bundler</h2>
+					<p>
+						<small>A presentation by <em>Alper Ortac</em></small>
+					</p>
+					<p>
+						<img class="twitter-handle" src="img/twitter-logo.png" alt="Twitter Handle"/>
+						<a href="https://twitter.com/alperortac">@alperortac</a>
+					</p>
+				</section>
+
+				<section>
+					<h1>#me</h1>
+					<ul>
+						<li>Frontend Developer @ Cisco</li>
+						<li>Fullstack Webdev Enthusiast</li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>Webpack?</h1>
+					<p><img src="img/webpack-logo.gif" class="logo no-border" alt="Webpack logo"/></p>
+					<p>Yes, their logo is <em>awesome</em>.</p>
+				</section>
+
+				<section>
+					<h1>Webpack!</h1>
+					<h3><span class="good">It is</span></h3>
+					<p>
+						<div>require/import sources <small>(e.g. CommonJS, AMD)</small></div>
+						<div>convert and preprocess <small>(e.g. minify, sass, babel)</small></div>
+						<div>create bundles that contain everything</div>
+					</p>
+					<h3><span class="bad">It is not</span></h3>
+					<p>
+						<div>a package manager</div>
+						<div>made for server-side</div>
+					</p>
+				</section>
+
+                <section>
+                    <h1>Our mission today</h1>
+                    <p><img src="img/demo-search-step5.png" alt="A webpack experiment"/></p>
+                    <small>Now, we will build this search page step by step.</small>
+                </section>
+
+                <section>
+					<h1>app.js</h1>
+					<pre><code class="javascript" data-trim contenteditable>
+var template = '' +
+'<h1>Find. Anything.</h1>' +
+'<form class="search">' +
+'   <input type="search" placeholder="Type...">' +
+'</form>';
+
+document.getElementById("app").innerHTML = template;
+					</code></pre>
+				</section>
+
+                <section>
+					<h1>index.html</h1>
+					<pre><code class="html" data-trim contenteditable>
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Find. Anything. - A Webpack Experiment&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="app"&gt;&lt;/div&gt;
+    &lt;script type="text/javascript" src="dist/bundle.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+					</code></pre>
+                    <p>Where does <code>bundle.js</code> come from?</p>
+				</section>
+
+                <section>
+					<h1>webpack.conf.js</h1>
+					<pre><code class="javascript" data-trim contenteditable>
+module.exports = {
+    entry: {
+        app: "source/script/app.js"
+    },
+
+    output: {
+        path: "dist",
+        filename: "bundle.js"
+    }
+}
+					</code></pre>
+                    <p>
+                        <code>webpack [--color] [--watch]</code>
+                    </p>
+				</section>
+
+				<section>
+					<h2>Show me the demo already</h2>
+					<h1>Link: <a href="">Step 1</a></h1>
+				</section>
+
+                <section>
+                    <h1>Our First Bundle</h1>
+                    <p><img src="img/demo-search-step1.png" alt="Step 1"/></p>
+                    <small>Let's create a module and import it.</small>
+                </section>
+
+				<section>
+					<h1>Modules &amp; Imports</h1>
+					<p class="code-filename">search.js</p>
+					<pre><code class="javascript" data-trim contenteditable>
+var template = "...";
+module.exports = {
+    template: template
+};
+					</code></pre>
+					<p class="code-filename">app.js</p>
+					<pre><code class="javascript" data-trim contenteditable>
+var search = require("search.js");
+// do something with search.template
+					</code></pre>
+
+					<aside class="notes">
+				        <p>Note: overloading require!</p>
+					    <p>Everything is local, no IIFE</p>
+						<p>IIFE: Immediately-Invoked Function Expression</p>
+				    </aside>
+				</section>
+
+				<section>
+                    <h1>Link: <a href="">Step 2</a></h1>
+				</section>
+
+
+				<section>
+					<h1>Our First<br />Module Import</h1>
+					<p><img src="img/demo-search-step1.png" alt="Step 2"/></p>
+					<small>Nothing changed <em>visually</em>. Now for the real stuff.</small>
+				</section>
+
+				<section>
+					<h1>Loaders</h1>
+                    <ul>
+	                    <li>Webpack works with vanilla Javascript out of the box</li>
+	                    <li>Loaders extend that functionality</li>
+	                    <li>They are <strong>transformations</strong> applied on files</li>
+                    </ul>
+				</section>
+
+				<section>
+					<h1>Let's enable Babel</h1>
+					<p class="code-filename">$ _</p>
+					<pre><code class="bash" data-trim contenteditable>
+npm install babel-loader
+					</code></pre>
+					<p class="code-filename">webpack.config.js</p>
+					<pre><code class="javascript" data-trim contenteditable>
+module: {
+    loaders: [
+        { test: /\.js$/, loader: 'babel' }
+    ]
+}
+					</code></pre>
+				</section>
+				
+				<section>
+					<h2>Now we can use ES6 style imports</h2>
+					<pre><code class="javascript" data-trim contenteditable>
+//var search = require("search.js");
+					</code></pre>
+					<pre><code class="javascript" data-trim contenteditable>
+import search from "search.js";
+					</code></pre>
+				</section>
+
+				<section>
+					<h1>Link: <a href="">Step 3</a></h1>
+				</section>
+
+				<section>
+					<h1>Babel'ed</h1>
+					<p><img src="img/demo-search-step3.png" alt="Step 3"/></p>
+					<small>Let's see how we can improve templating and stylesheets.</small>
+				</section>
+
+				<section>
+					<h1>Loaders can do a lot more than transforming Javascript files</h1>
+				</section>
+
+				<section class="scrollable-container">
+					<h2>There is a loader for everything™</h2>
+					<div class="scrollable-area">
+<div id="wiki" class="col-md-12">
+<h2 id="basic">basic</h2>
+<ul>
+<li><a href="https://github.com/webpack/json-loader"><code>json</code></a>: Loads file as JSON</li>
+<li><a href="https://github.com/kentcdodds/hson-loader"><code>hson</code></a>: Loads HanSON file (JSON for Humans) as JSON object</li>
+<li><a href="https://github.com/webpack/raw-loader"><code>raw</code></a>: Loads raw content of a file (as utf-8)</li>
+<li><a href="https://github.com/webpack/val-loader"><code>val</code></a>: Executes code as module and consider exports as JavaScript code</li>
+<li><a href="https://github.com/gajus/to-string"><code>to-string</code></a>: Executes code as a module, casts output to a string and exports it</li>
+<li><a href="https://github.com/webpack/imports-loader"><code>imports</code></a>: Imports stuff to the module</li>
+<li><a href="https://github.com/webpack/exports-loader"><code>exports</code></a>: Exports stuff from the module</li>
+<li><a href="https://github.com/webpack/expose-loader"><code>expose</code></a>: Expose exports from a module to the global context</li>
+<li><a href="https://github.com/webpack/script-loader"><code>script</code></a>: Executes a JavaScript file once in global context (like in script tag), requires are not parsed.</li>
+<li><a href="https://github.com/webpack/source-map-loader"><code>source-map</code></a>: Extract <code>sourceMappingURL</code> comments from modules and offer it to webpack</li>
+<li><a href="https://github.com/naturalatlas/checksum-loader"><code>checksum</code></a>: Computes the checksum of a file</li>
+<li><a href="https://github.com/webpack/null-loader"><code><span class="literal">null</span></code></a>: Emits an empty module.</li>
+<li><a href="https://github.com/nelix/cowsay-loader"><code>cowsay</code></a>: Emits a module with a cowsay header.</li>
+<li><a href="https://github.com/wbkd/dsv-loader"><code>dsv</code></a>: Loads csv/tsv files.</li>
+<li><a href="https://github.com/makio64/shader-loader"><code>glsl</code></a>: Loads glsl files and support glsl-chunks.</li>
+<li><a href="https://github.com/zackify/render-placement-loader"><code>render-placement</code></a>: Adds React.render to your component for you (not very practical in most cases)</li>
+<li><a href="https://github.com/gisikw/xml-loader"><code>xml</code></a>: Loads XML as JSON.</li>
+<li><a href="https://github.com/jhamlet/svg-react-loader"><code>svg-react</code></a>: Load SVG files as JSX-ified React.createClass declarations.</li>
+<li><a href="https://github.com/antelle/base64-loader"><code>base64</code></a>: Loads file content as base64 string</li>
+</ul>
+<br />
+<br />
+<h2 id="packaging">packaging</h2>
+<ul>
+<li><a href="https://github.com/webpack/file-loader"><code>file</code></a>: Emits the file into the output folder and returns the (relative) url.</li>
+<li><a href="https://github.com/webpack/url-loader"><code>url</code></a>: The url loader works like the file loader, but can return a Data Url if the file is smaller than a limit.</li>
+<li><a href="https://github.com/webpack/worker-loader"><code>worker</code></a>: The worker loader creates a WebWorker for the provided file. The bundling of dependencies of the Worker is transparent.</li>
+<li><a href="https://github.com/mrtnbroder/shared-worker-loader"><code>shared-worker</code></a>: Like the worker loader, but for <a href="https://developer.mozilla.org/de/docs/Web/API/SharedWorker">Shared Workers</a>.</li>
+<li><a href="https://github.com/markdalgleish/serviceworker-loader"><code>serviceworker</code></a>: Like the worker loader, but designed for <a href="http://www.w3.org/TR/service-workers">Service Workers</a>.</li>
+<li><a href="https://github.com/webpack/bundle-loader"><code>bundle</code></a>: Wraps request in a <code>require.ensure</code> block (callback)</li>
+<li><a href="https://github.com/gaearon/promise-loader"><code>promise</code></a>: Wraps request in a <code>require.ensure</code> block (promise)</li>
+<li><a href="https://github.com/webpack/react-proxy-loader"><code>react-proxy</code></a>: Code Splitting for react components.</li>
+<li><a href="https://github.com/gaearon/react-hot-loader"><code>react-hot</code></a>: Allows to live-edit React components while keeping them mounted and preserving their state.</li>
+<li><a href="https://github.com/tcoopman/image-webpack-loader"><code>image</code></a>: Compresses your images. Ideal to use together with <code>file</code> or <code>url</code>.</li>
+<li><a href="https://github.com/thetalecrafter/img-loader"><code>img</code></a>: Load and compress images with imagemin.</li>
+<li><a href="https://github.com/pozadi/svgo-loader"><code>svgo-loader</code></a>: Compresses SVG images using <a href="https://github.com/svg/svgo">svgo</a> library</li>
+<li><a href="https://github.com/deepsweet/baggage-loader"><code>baggage</code></a>: Automatically require any resources related to the required one</li>
+<li><a href="https://github.com/JonDum/polymer-loader"><code>polymer-loader</code></a>: Process HTML &amp; CSS with preprocessor of choice and <code>require()</code> Web Components like first-class modules.</li>
+<li><a href="https://github.com/bestander/uglify-loader"><code>uglify-loader</code></a>: Uglify contents of a module. Unlike uglify plugin you can minify with mangling only your application files and not the libraries</li>
+<li><a href="https://github.com/bestander/html-minify-loader"><code>html-minify-loader</code></a>: Minifies HTML using <a href="https://github.com/Moveo/minimize">minimize</a></li>
+<li><a href="https://github.com/vuejs/vue-loader"><code>vue-loader</code></a>: Load single-file Vue.js components as modules, with loader-support for preprocessors.</li>
+<li><a href="https://github.com/timoxley/tojson-loader"><code>tojson-loader</code></a> Serialize module exports as JSON. Cache generated static data as JSON at build time.</li>
+<li><a href="https://github.com/bmagnantb/zip-it-loader"><code>zip-it-loader</code></a> Convert files and directories to zip. Great with <code>file</code>.</li>
+</ul>
+<br />
+<br />
+<h2 id="dialects">dialects</h2>
+<ul>
+<li><a href="https://github.com/webpack/coffee-loader"><code>coffee</code></a>: Loads coffee-script like JavaScript</li>
+<li><a href="https://github.com/jsifalda/coffee-jsx-loader"><code>coffee-jsx</code></a>: Loads coffee-script with JSX like JavaScript</li>
+<li><a href="https://github.com/webpack/coffee-redux-loader"><code>coffee-redux</code></a>: Loads coffee-script like JavaScript</li>
+<li><a href="https://github.com/webpack/json5-loader"><code>json5</code></a>: Like json, but not so strict.</li>
+<li><a href="https://github.com/shama/es6-loader"><code>es6</code></a>: Loads ES6 modules. (old)</li>
+<li><a href="https://github.com/conradz/esnext-loader"><code>esnext</code></a>: Transpile ES6 code using <a href="https://github.com/esnext/esnext">esnext</a>.</li>
+<li><a href="https://github.com/babel/babel-loader"><code>babel</code></a>: Turn ES6 code into vanilla ES5 using <a href="https://github.com/babel/babel">Babel</a>.</li>
+<li><a href="https://github.com/pjeby/regenerator-loader"><code>regenerator</code></a>: Use ES6 generators via Facebook’s <a href="http://facebook.github.io/regenerator/">Regenerator</a> module.</li>
+<li><a href="https://github.com/appedemic/livescript-loader"><code>livescript</code></a>: Loads LiveScript like JavaScript</li>
+<li><a href="https://github.com/jlongster/sweetjs-loader"><code>sweetjs</code></a>: Use sweetjs macros. </li>
+<li><a href="https://github.com/jupl/traceur-loader"><code>traceur</code></a>: Use future JavaScript features with <a href="https://github.com/google/traceur-compiler">Traceur</a>.</li>
+<li><a href="https://github.com/jbrantly/ts-loader"><code>ts</code></a>: Loads TypeScript like JavaScript.</li>
+<li><a href="https://github.com/andreypopp/typescript-loader"><code>typescript</code></a>: Loads TypeScript like JavaScript.</li>
+<li><a href="https://github.com/blakeembrey/typescript-simple-loader"><code>typescript-simple-loader</code></a>: Loads TypeScript with syntactic and semantic errors.</li>
+<li><a href="https://github.com/s-panferov/awesome-typescript-loader"><code>awesome-typescript-loader</code></a>: Loads TypeScript like JavaScript with watching support. <strong>Works with TypeScript 1.5-alfa</strong></li>
+<li><a href="https://www.npmjs.com/package/purs-loader"><code>purs-loader</code></a>: Loads <a href="http://www.purescript.org/">PureScript</a> like JavaScript.</li>
+<li><a href="https://github.com/DragonsInn/oj-loader"><code>oj</code></a>: Loads <a href="https://github.com/musictheory/oj">OJ</a> (an Objective-C like language) files and compiles them to plain JavaScript.</li>
+<li><a href="https://github.com/unindented/ulmus-loader"><code>ulmus</code></a>: Loads <a href="http://elm-lang.org/">Elm</a> files and compiles them to plain JavaScript.</li>
+<li><a href="https://github.com/collardeau/miel-loader"><code>miel</code></a>: Loads <a href="https://github.com/collardeau/miel">Miel</a> syntax and compiles to JavaScript.</li>
+</ul>
+<br />
+<br />
+<h2 id="templating">templating</h2>
+<ul>
+<li><a href="https://github.com/webpack/html-loader"><code>html</code></a>: Exports HTML as string, require references to static resources.</li>
+<li><a href="https://github.com/esnunes/riotjs-loader"><code>riot</code></a>: Load RiotJS tags and convert them to javascript.</li>
+<li><a href="https://github.com/webpack/jade-loader"><code>jade</code></a>: Loads jade template and returns a function</li>
+<li><a href="https://github.com/bline/jade-html-loader"><code>jade-html</code></a>: Loads jade template and returns generated HTML</li>
+<li><a href="https://github.com/jtangelder/template-html-loader"><code>template-html</code></a>: Loads any template with consolidate.js and returns generated HTML</li>
+<li><a href="https://github.com/altano/handlebars-loader"><code>handlebars</code></a>: Loads handlebars template and returns a function</li>
+<li><a href="https://github.com/avaly/dust-loader"><code>dust</code></a>: Loads dust template and returns a function</li>
+<li><a href="https://github.com/rstacruz/ractive-loader"><code>ractive</code></a>: Pre-compiles Ractive templates for interactive DOM manipulation</li>
+<li><a href="https://github.com/petehunt/jsx-loader"><code>jsx</code></a>: Transform jsx code for <a href="http://facebook.github.io/react/">React</a> to js code.</li>
+<li><a href="https://github.com/AlexanderPavlenko/react-templates-loader"><code>react-templates</code></a>: Loads react-template and returns a function</li>
+<li><a href="https://github.com/yoshdog/emblem-loader"><code>em</code></a>: Compiles <a href="http://emblemjs.com/">Emblem</a> to Handlebars.js</li>
+<li><a href="https://github.com/okonet/ejs-loader"><code>ejs</code></a>: Loads EJS (<a href="http://underscorejs.org/#template">underscore</a>( templating engine) template and returns a pre-compiled function</li>
+<li><a href="https://github.com/deepsweet/mustache-loader"><code>mustache</code></a>: Pre-compiles Mustache templates with <a href="https://github.com/twitter/hogan.js">Hogan.js</a> and returns a function</li>
+<li><a href="https://github.com/okonet/yaml-loader"><code>yaml</code></a>: Converts YAML to JSON</li>
+<li><a href="https://github.com/peerigon/markdown-loader"><code>markdown</code></a>: Compiles Markdown to HTML</li>
+<li><a href="https://github.com/unindented/remarkable-loader"><code>remarkable</code></a>: Compiles Markdown to HTML using the Remarkable parser</li>
+<li><a href="https://github.com/unindented/markdown-it-loader"><code>markdown-it</code></a>: Compiles Markdown to HTML using the markdown-it parser</li>
+<li><a href="https://github.com/teux/ng-cache-loader"><code>ng-cache</code></a>: Puts HTML partials in the Angular’s $templateCache</li>
+<li><a href="https://github.com/WearyMonkey/ngtemplate-loader"><code>ngtemplate</code></a>: Bundles your AngularJS templates and Pre-loads the template cache.</li>
+<li><a href="https://github.com/ericdfields/hamlc-loader"><code>hamlc</code></a>: Compiles haml-coffee templates (.hamlc) and returns a function.</li>
+<li><a href="https://github.com/AlexanderPavlenko/haml-loader"><code>haml</code></a>: Renders haml-coffee templates (.html.hamlc) and returns a string.</li>
+<li><a href="https://github.com/pierreant-p/jinja-loader"><code>jinja</code></a>: Precompiles nunjucks and jinja2 templates</li>
+<li><a href="https://github.com/bendman/soy-loader"><code>soy</code></a>: Compiles Google Closure templates and returns the namespace with render functions</li>
+<li><a href="https://github.com/zhiyan/smarty-loader"><code>smarty</code></a>: Pre-compiles php smarty templates and returns a function</li>
+<li><a href="https://github.com/bradbenvenuti/template-string-loader"><code>template-string</code></a>: Use ES6 template strings for html templates</li>
+</ul>
+<br />
+<br />
+<h2 id="styling">styling</h2>
+<ul>
+<li><a href="https://github.com/justin808/bootstrap-sass-loader"><code>bootstrap-sass</code></a>: Loads a configuration file for Twitter Bootstrap integration using Sass. Allows complete customization via Sass.</li>
+<li><a href="https://github.com/webpack/style-loader"><code>style</code></a>: Add exports of a module as style to DOM</li>
+<li><a href="https://github.com/webpack/css-loader"><code>css</code></a>: Loads css file with resolved imports and returns css code</li>
+<li><a href="https://github.com/webpack/less-loader"><code>less</code></a>: Loads and compiles a less file</li>
+<li><a href="https://github.com/jtangelder/sass-loader"><code>sass</code></a>: Loads and compiles a scss file</li>
+<li><a href="https://github.com/shama/stylus-loader"><code>stylus</code></a>: Loads and compiles a stylus file</li>
+<li><a href="https://github.com/okonet/rework-loader"><code>rework</code></a>: Post-process CSS with <a href="https://github.com/reworkcss/rework">Rework</a> and returns CSS code</li>
+<li><a href="https://github.com/postcss/postcss-loader"><code>postcss</code></a>: Post-process CSS with Autoprefixer and <a href="https://github.com/postcss/postcss#built-with-postcss">other PostCSS plugins</a></li>
+<li><a href="https://github.com/passy/autoprefixer-loader"><code>autoprefixer</code></a>: Add vendor prefixes to CSS rules using values from Can I Use</li>
+<li><a href="https://github.com/jeffling/namespace-css-loader"><code>namespace-css</code></a>: Namespace your css with a given selector (for encapsulating all rules in one subset of your site)</li>
+<li><a href="https://www.npmjs.com/package/fontgen-loader"><code>fontgen</code></a>: Create your own webfont with proper CSS on-the-fly and include it into WebPack.</li>
+</ul>
+<br />
+<br />
+<h2 id="translation">translation</h2>
+<ul>
+<li><a href="https://github.com/perchlayer/po-loader"><code>po</code></a>: Loads a PO gettext file and returns JSON</li>
+<li><a href="https://github.com/thetalecrafter/format-message-loader"><code>format-message</code></a>: Compiles translations to ICU Message Format strings in <a href="https://github.com/thetalecrafter/format-message"><code>formatMessage</code></a> calls</li>
+<li><a href="https://github.com/drd/jsxlate-loader"><code>jsxlate-loader</code></a>: Transform React source code for use with <a href="https://github.com/drd/jsxlate"><code>jsxlate</code></a></li>
+<li><a href="https://github.com/DatenMetzgerX/webpack-angular-translate"><code>webpack-angular-translate</code></a>: Extracts <a href="https://angular-translate.github.io">angular-translate</a> translation id’s and default text’s</li>
+</ul>
+<br />
+<br />
+<h2 id="support">support</h2>
+<ul>
+<li><a href="https://github.com/webpack/mocha-loader"><code>mocha</code></a>: do tests with mocha in browser or node.js</li>
+<li><a href="https://github.com/webpack/coverjs-loader"><code>coverjs</code></a>: PostLoader to code coverage with CoverJs</li>
+<li><a href="https://github.com/deepsweet/istanbul-instrumenter-loader"><code>istanbul-instrumenter</code></a>: <a href="https://github.com/gotwarlost/istanbul">Istanbul</a> postLoader to code coverage with <a href="https://github.com/webpack/karma-webpack">karma-webpack</a> and <a href="https://github.com/karma-runner/karma-coverage">karma-coverage</a></li>
+<li><a href="https://github.com/ColCh/isparta-instrumenter-loader"><code>isparta-instrumenter</code></a>: <a href="https://github.com/douglasduteil/isparta">Isparta</a> preLoader to code coverage with <a href="https://github.com/webpack/karma-webpack">karma-webpack</a> and <a href="https://github.com/douglasduteil/karma-coverage">douglasduteil/karma-coverage#next</a></li>
+<li><a href="https://github.com/vectart/ibrik-instrumenter-loader"><code>ibrik-instrumenter</code></a>: <a href="https://github.com/Constellation/ibrik">Ibrik</a> preLoader to CoffeeScript code coverage with <a href="https://github.com/webpack/karma-webpack">karma-webpack</a> and <a href="https://github.com/douglasduteil/karma-coverage">douglasduteil/karma-coverage</a></li>
+<li><a href="https://github.com/MoOx/eslint-loader"><code>eslint</code></a>: PreLoader for linting code using ESLint.</li>
+<li><a href="https://github.com/webpack/jshint-loader"><code>jshint</code></a>: PreLoader for linting code.</li>
+<li><a href="https://github.com/unindented/jscs-loader"><code>jscs</code></a>: PreLoader for style checking.</li>
+<li><a href="https://github.com/timoxley/standard-loader"><code>standard</code></a>: Conform to <a href="https://github.com/feross/standard">standard</a> code style.</li>
+<li><a href="https://github.com/jauco/webpack-injectable"><code>injectable</code></a>: Allow to inject dependencies into modules</li>
+<li><a href="https://github.com/webpack/transform-loader"><code>transform</code></a>: Use browserify transforms as loader.</li>
+<li><a href="https://github.com/patcoll/image-size-loader"><code>image-size</code></a>: Loads an image and returns its dimensions and type</li>
+<li><a href="https://github.com/hyungjs/csslint-loader"><code>csslint</code></a>: PreLoader for linting code using CSSLint</li>
+<li><a href="https://github.com/bline/coffeelint-loader"><code>coffeelint-loader</code></a>: PreLoader for linting <a href="http://coffeescript.org/">CoffeeScript</a>.</li>
+<li><a href="https://github.com/wbuchwalter/tslint-loader"><code>tslint-loader</code></a>: PreLoader for linting TypeScript using <a href="https://github.com/palantir/tslint">TSLint</a></li>
+<li><a href="https://github.com/tanem/parker-loader"><code>parker</code></a>: Output a stylesheet analysis report using <a href="https://github.com/katiefenn/parker">parker</a>.</li>
+<li><a href="https://github.com/3100/sjsp-loader"><code>sjsp</code></a>: Inject some codes for profiling using <a href="https://github.com/45deg/node-sjsp">node-sjsp</a>.</li>
+</ul>
+</div>
+					</div>
+				</section>
+
+				<section>
+					<h2>Loaders for HTML and CSS</h2>
+					<h5>Load file contents as string literal</h6>
+					<pre><code class="bash" data-trim contenteditable>
+npm install html-loader css-loader
+					</code></pre>
+					<br />
+					<h5>Template function with variable replacement</h5>
+					<pre><code class="bash" data-trim contenteditable>
+npm install template-string-loader
+					</code></pre>
+					<br />
+					<h5>Style injection in document</h5>
+					<pre><code class="bash" data-trim contenteditable>
+npm install style-loader
+					</code></pre>
+				</section>
+				
+				<section>
+					<h1>Loader Configuration</h1>
+					<p class="code-filename">webpack.config.js</p>
+					<pre><code class="javascript" data-trim contenteditable>
+module: {
+    loaders: [
+        { test: /\.html/, loader: "babel!template-string!html" },
+        { test: /\.css$/i, loader: "style!css?modules" }
+    ]
+}
+					</code></pre>
+					<ul>
+						<li>
+							Loaders can be chained with <code>!</code>
+							<small>(read the chain from right to left)</small>
+						</li>
+						<li>
+							<code>?</code> indicates loader parameters
+							<small>(<code>modules</code> is for unique class names)</small>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>Unmodularized</h1>
+					<p class="code-filename">index.html</p>
+					<pre><code class="html" data-trim contenteditable>
+&lt;head&gt;
+	&lt;link rel="stylesheet" href="style/app.css" /&gt;
+	&lt;link rel="stylesheet" href="style/search.css" /&gt;
+&lt;/head&gt;
+					</code></pre>
+					<p class="code-filename">search.css</p>
+					<pre><code class="css" data-trim contenteditable>
+.search {
+	width: 100%;
+	vertical-align: middle;
+	white-space: nowrap;
+	position: relative;
+}
+
+// ...
+					</code></pre>
+				</section>
+
+				<section>
+					<h1>Modules &amp; Templates</h1>
+					<p class="code-filename">search.html</p>
+					<pre><code class="html" data-trim contenteditable>
+<form class="${scope.styles.search}">
+    <span class="${scope.styles.icon}">
+    	<i class="fa fa-search fa-2x"></i>
+	</span>
+    <input type="search" placeholder="Type...">
+</form>
+<div id="results"></div>
+					</code></pre>
+					<p class="code-filename">search.js</p>
+					<pre><code class="javascript" data-trim contenteditable>
+import template from 'template/search.html';
+import styles from 'style/search.css';
+
+module.exports = {
+    template: template({
+        styles: styles
+    })
+};
+					</code></pre>
+				</section>
+
+				<section>
+					<h1>Link: <a href="">Step 4</a></h1>
+				</section>
+
+				<section>
+					<h1>Everything is<br /> in one Bundle</h1>
+					<p><img src="img/demo-search-step3.png" alt="Step 3"/></p>
+					<small>What about images? And fonts?</small>
+				</section>
+
+				<section>
+					<h1>Url Loader</h1>
+					<p class="code-filename">webpack.config.js</p>
+					<pre><code class="javascript" data-trim contenteditable>
+module: {
+    loaders: [
+        { test: /\.(png|jpe?g|gif)$/, loader: 'url-loader?limit=8192' }
+    ]
+}
+					</code></pre>
+					<p class="code-filename">app.js</p>
+					<pre><code class="javascript" data-trim contenteditable>
+import logo from 'image/logo.png';
+					</code></pre>
+					<small>What means <code>limit=8192</code>?</small>
+					<p>If file size is below, create an inline<br />Base64 string instead of copying the file</p>
+				</section>
+
+				<section>
+					<h1>External Files</h1>
+					<p class="code-filename">index.html</p>
+					<pre><code class="html" data-trim contenteditable>
+&lt;link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"&gt;
+					</code></pre>
+					<p class="code-filename">app.css</p>
+					<pre><code class="css" data-trim contenteditable>
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,900);
+					</code></pre>
+					<p>Note: <strong>Webpack does not provide a way<br />to modularize externally hosted files</strong></p>
+					<p><small>Ok, there is a <a href="http://swizec.com/blog/webpack-lazy-loading-on-rails-with-cdn-support/swizec/6689" alt="">trick</a>, but it's not possible to use multiple domains.</small></p>
+				</section>
+
+				<section>
+					<h1>Link: <a href="">Step 5</a></h1>
+				</section>
+
+				<section>
+					<h1>Static Assets Inside</h1>
+					<p><img src="img/demo-search-step5.png" alt="Step 5"/></p>
+					<small>Let's include a Javascript library.</small>
+				</section>
+
+				<section>
+					<h1>jQuery, because lazy</h1>
+					<p class="code-filename">$ _</p>
+					<pre><code class="bash" data-trim contenteditable>
+npm install jquery
+					</code></pre>
+					<p class="code-filename">webpack.config.js</p>
+					<pre><code class="javascript" data-trim contenteditable>
+module: {
+    loaders: [
+        { test: /\.js$/, loader: 'babel', exclude: 'node_modules') }
+    ]
+}
+					</code></pre>
+					<p>Exclude <code>node_modules</code> from Babel preprocessor<br />to avoid longer build time and potential problems</p>
+				</section>
+
+				<section>
+					<h1>Use it</h1>
+					<p class="code-filename">search.js</p>
+					<pre><code class="javascript" data-trim contenteditable>
+import $ from 'jquery';
+
+$(document).ready(function() {
+	// do something
+});
+					</code></pre>
+					<p>Easy.</p>
+				</section>
+
+				<section>
+					<h1>Link: <a href="">Step 6</a></h1>
+				</section>
+
+				<section>
+					<h2>We are done</h2>
+					<small>Gifs fetched from <a href="https://github.com/giphy/GiphyAPI">Giphy API</a></small>
+					<p><img src="img/demo-search-step6.png" alt="Step 6"/></p>
+				</section>
+
+				<section>
+					<h2>Even More Webpack Features</h2>
+					<ul class="check">
+						<li class="good">Compress assets (minifying js/css, optimize images)</li>
+						<li class="good fragment">Inlining assets (style attributes, base64 images and fonts)</li>
+						<li class="good fragment">Splitting bundle into several Chunks (Async Loading)</li>
+						<li class="good fragment">Common Chunks and Dead Code Removal</li>
+						<li class="good fragment">Source Maps</li>
+						<li class="good fragment">Application Cache</li>
+						<li class="good fragment">Hot module replacement</li>
+						<li class="good fragment">Many more Plugins...</li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>What about all the other tools?</h1>
+				</section>
+
+				<section>
+					<h1><a href="http://requirejs.org/">Require.JS</a></h1>
+					<ul class="check">
+						<li class="good">Simple and Well Established</li>
+						<li class="good">Bundling and Async Loading</li>
+						<li class="good">Optimizer (combining, minifying, inlining)</li>
+						<li class="bad">Optimizer (Config, Performance)</li>
+						<li class="bad">No Static Assets</li>
+						<li class="bad">AMD format is outdated and can be quite messy</li>
+					</ul>
+					<p>
+						It's a classic, but lacks many features.
+					</p>
+				</section>
+
+				<section>
+					<h1><a href="http://browserify.org/">Browserify</a></h1>
+					<ul class="check">
+						<li class="good">Webpack-like and thought-of concepts</li>
+						<li class="good">node.js compliant</li>
+						<li class="bad">Can be quite slow</li>
+						<li class="bad">No Static Assets</li>
+						<li class="bad">Inferior Bundle Splitting</li>
+					</ul>
+					<p>
+						Webpack overloads <code>require</code>, so if you want<br />
+						reusable server-side code use browserify
+					</p>
+					<p><small>Besides, it's difficult to setup (at least in my experience)</small></p>
+				</section>
+
+				<section>
+					<h1><a href="http://jspm.io/">JSPM</a></h1>
+					<ul class="check">
+						<li class="good">
+							package registry with dependency management<br />
+							npm + github + custom (like bower)
+						</li>
+						<li class="good">modules and bundling</li>
+						<li class="bad">little support for preprocessors</li>
+					</ul>
+					<p>
+						Strong because ES6 compliant, but requires<br />
+						a partner tool for precompiling needs
+					</p>
+				</section>
+
+				<section>
+					<h1><a href="http://gulpjs.com/">Gulp</a></h1>
+					<h3>or <a href="http://gruntjs.com/">Grunt</a></h3>
+					<h5>or <a href="https://github.com/broccolijs/broccoli">Broccoli</a></h5>
+					<h6><small>or …</small></h6>
+					<ul class="check">
+						<li class="good">LOADS of plugins</li>
+						<li class="bad">Task runner (not a module loader per se)</li>
+					</ul>
+					<p>
+						Task runners are basically without restrictions,<br />
+						but all parts need to be glued together manually
+					</p>
+					<aside class="notes">
+						<p>Also possible: plain NPM</p>
+						<p>
+							Webpack doesn't rely on Gulp but may<br />
+							profit from additional features
+						</p>
+					</aside>
+				</section>
+
+				<section>
+					<h1>Is webpack<br />the holy grail?</h1>
+					<p><img src="img/delorean.gif" alt="88mph"/></p>
+				</section>
+
+				<section>
+					<h1>The Good</h1>
+					<ul class="check">
+						<li class="good">Modules, Loaders, Bundles &amp; Splits work very well</li>
+						<li class="good">Many Plugins for special requirements</li>
+						<li class="good">Plays along well with other tools (e.g. gulp, bower)</li>
+						<li class="good">Nice Performance</li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>The Bad</h1>
+					<ul class="check">
+						<li class="bad">require is overloaded, can't be used for node.js code</li>
+						<li class="bad">External script loading is not supported (e.g. CDN)</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Takeaway</h2>
+					<h1>Webpack is great, but it's not for everyone</h1>
+				</section>
+
+				<section>
+					<h2>This presentation</h2>
+					<p><a href="XXX">
+						TODO
+					</a></p>
+					<br />
+					<h2>Demo source code for all steps</h2>
+					<p><a href="XXX">
+						TODO
+					</a></p>
+				</section>
+
+				<section>
+					<h1>Inspirational Sources</h1>
+					<small>
+						<ul>
+							<li><a href="http://webpack.github.io/docs/comparison.html">
+								Webpack Comparison
+							</a></li>
+							<li><a href="https://github.com/greypants/gulp-starter/tree/2.0">
+								gulp-starter with preconfigured Webpack and many other features
+							</a></li>
+							<li><a href="http://peerigon.github.io/presentations/2014-07-09-MNUG-webpack/">
+								Managing your front-end with webpack
+							</a> by Johannes Ewald</li>
+							<li><a href="https://gist.github.com/OliverJAsh/bcc676e381a06dbb3be0">
+								webpack experiment and comparison against jspm
+							</a>by Oliver Joseph Ash</li>
+							<li><a href="http://x-team.com/2015/08/css-modules-a-new-way-to-css/">
+								css-modules: Why this is the most significant improvement to CSS in years
+							</a> by Josh Johnston</li>
+							<li><a href="http://webdesign.tutsplus.com/tutorials/css-experiments-with-a-search-form-input-and-button--cms-22069">
+								CSS Experiments With a Search Form Input and Button
+							</a> by Paula Borowska</li>
+							<li><a href="https://github.com/giphy/GiphyAPI">
+								Giphy API Documentation
+							</a></li>
+							<li><a href="https://www.iconfinder.com/iconsets/8-bit">
+								8-Bit Iconset
+							</a></li>
+						</ul>
+					</small>
+				</section>
+
+				<section>
+					<h1>The End</h1>
+					<p><img src="img/theend.gif" alt="Mister Freeman"/></p>
+					<p>Thanks for your attention!</p>
+					<p>
+						<img class="twitter-handle" src="img/twitter-logo.png" alt="Twitter Handle"/>
+						<a href="https://twitter.com/alperortac">@alperortac</a>
+					</p>
+				</section>
+
+				<section class="squiek">
+					<h1>Join Squiek</h1>
+					<h3>The Community Of Communities</h3>
+					<img class="squiek-logo no-border" src="img/squiek-logo.png" alt="Squiek - The Community Of Communities"/>
+					<h4><a href="http://developer.squiek.com">http://developer.squiek.com</a></h4>
+					<h4><a href="http://launch.squiek.com">http://launch.squiek.com</a></h4>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// slideNumber: 'c / t',
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
