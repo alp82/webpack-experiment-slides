@@ -1,8 +1,10 @@
 # webpack-experiment-slides
 Slides for an experiment with Webpack, which is a step by step introduction with demo source code.
 
-# reveal.js 
-The slides are made with the awesome [reveal.js](https://github.com/hakimel/reveal.js) library.
+# Slides 
+The slides are available online at [webpack-experiment-slides](http://alp82.github.io/webpack-experiment-slides).
+
+Made with the awesome [reveal.js](https://github.com/hakimel/reveal.js) library.
 
 # Demo
 The matching demonstration for the examples in the slides can be found here:
