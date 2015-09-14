@@ -6,6 +6,15 @@ The slides are available online at [webpack-experiment-slides](http://alp82.gith
 
 Made with the awesome [reveal.js](https://github.com/hakimel/reveal.js) library.
 
+## Prequisites
+- install [node.js](https://nodejs.org/en/)
+- install [grunt](http://gruntjs.com/getting-started#installing-the-cli)
+
+## Run the slides:
+- npm install
+- grunt serve
+- point your browser to [http://localhost:8000](http://localhost:8000)
+
 # Demo
 The matching demonstration for the examples in the slides can be found here:
 - [webpack-experiment-demo](https://github.com/alp82/webpack-experiment-demo)
